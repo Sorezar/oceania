@@ -1,0 +1,10 @@
+path: C:\Users\mlk63\Documents\Projets\data
+train: images\train
+val: images\val
+
+# Classes
+
+names:
+  0: bouledogue
+  1: blacktip
+  2: whitetip
