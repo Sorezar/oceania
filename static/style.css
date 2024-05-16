@@ -1,10 +1,15 @@
+/* Common */
+
 nav a {
-  display: block;
-  margin: 5px 0 0 0px ;
+  position: relative;
+  display: inline-block;
+  margin: 10px 0 0 0px ;
   width: 100%;
   text-decoration: none;
   color: #fff;
-  font-size: 1.2em;
+  font-size: 1.3em;
+  text-indent: 10px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .selected {
@@ -18,7 +23,9 @@ nav a {
   display: flex;
   height: initial;
   padding: initial;
-  justify-content: center; 
+  justify-content: center;
+  text-indent: 0%;
+  font-size: 1.5em;
 }
 
 .nav-btn:hover {
@@ -45,13 +52,6 @@ main {
   border-radius: 10px; 
   overflow: hidden; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-}
-
-#result img {
-  border-radius: 15px;
-  width: 100%;
-  max-width: 55vh;
-  height: auto;
 }
 
 #loading {
@@ -82,7 +82,7 @@ main {
 }
 
 .button {
-  margin: 20px;
+  margin: 10px;
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -97,4 +97,31 @@ body {
   padding: 0;
   font-family: "SanaSans", sans-serif;
   background-color: #FFF;
+}
+
+/* Index */
+
+.index-page #result img {
+  border-radius: 15px;
+  width: 100%;
+  max-width: 55vh;
+  height: auto;
+}
+
+/* Gallery */
+
+.gallery-page .grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+.gallery-page .grid-item {
+  text-align: center;
+}
+.gallery-page .grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
