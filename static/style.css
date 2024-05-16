@@ -1,6 +1,6 @@
 nav a {
   display: block;
-  margin: 5px 0 0 -10px ;
+  margin: 5px 0 0 0px ;
   width: 100%;
   text-decoration: none;
   color: #fff;
@@ -11,7 +11,7 @@ nav a {
   background-color: #fff;
   color: #000;
   border-radius: 10px;
-  padding: 5px 5px 5px 5px;
+  padding: 5px 0px;
 }
 
 .nav-btn {
@@ -45,6 +45,51 @@ main {
   border-radius: 10px; 
   overflow: hidden; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+#result img {
+  border-radius: 15px;
+  width: 100%;
+  max-width: 55vh;
+  height: auto;
+}
+
+#loading {
+  display: none;
+  width: 50px;
+  height: 50px;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#drop-area {
+  border: 2px dashed #007bff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin: 20px;
+}
+
+#drop-area.highlight {
+  border-color: purple;
+}
+
+.button {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 body {

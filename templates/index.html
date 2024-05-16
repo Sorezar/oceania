@@ -7,6 +7,7 @@
     <title>Shark AI</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -15,24 +16,118 @@
         <a routerlink="/" class="nav-btn" href="/">
             <h2>Shark AI</h2>
         </a>
-        <a href="/" class="selected" style="padding: 10px;">Upload</a>
-        <a href="/gallery" style="padding: 10px;">Galerie</a>
+        <a href="/" class="selected">Upload</a>
+        <a href="/gallery">Galerie</a>
     </nav>
 
     <main>
-        <img src="{{ url_for('webcam') }}" alt="Video Feed">
+        <!--<img src="{{ url_for('webcam') }}" alt="Video Feed">-->
 
+        <div id="drop-area">
+            <form id="upload-form" enctype="multipart/form-data">
+                <p>Drag and drop an image file here or click to select a file</p>
+                <input type="file" name="file" id="file-input" style="display: none;">
+                <button type="button" class="button" onclick="document.getElementById('file-input').click();"> <i class="fa fa-download"></i></button>
+            </form>
+        </div>
+        
+        <div id="loading"></div>
+        <div id="result"></div>
+        <div id="download"></div>
 
-        <form id="upload-form" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" required>
-            <input type="submit" value="Upload">
-        </form>
+        <script>
+        $(document).ready(function() {
+            let dropArea = document.getElementById('drop-area');
+            let fileInput = document.getElementById('file-input');
+            let uploadForm = document.getElementById('upload-form');
 
-        {% if filename %}
-        <img src="{{ url_for('display_image', filename=filename) }}">
-        {% endif %}
+            // Prevent default drag behaviors
+            ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false)
+                document.body.addEventListener(eventName, preventDefaults, false)
+            })
+
+            // Highlight drop area when item is dragged over it
+            ;['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false)
+            })
+
+            ;['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false)
+            })
+
+            // Handle dropped files
+            dropArea.addEventListener('drop', handleDrop, false)
+
+            // Handle file input change
+            fileInput.addEventListener('change', handleFileSelect, false);
+
+            function preventDefaults (e) {
+                e.preventDefault()
+                e.stopPropagation()
+            }
+
+            function highlight(e) {
+                dropArea.classList.add('highlight')
+            }
+
+            function unhighlight(e) {
+                dropArea.classList.remove('highlight')
+            }
+
+            function handleDrop(e) {
+                let dt = e.dataTransfer
+                let files = dt.files
+                handleFiles(files)
+            }
+
+            function handleFileSelect(e) {
+                let files = e.target.files;
+                handleFiles(files);
+            }
+
+            function handleFiles(files) {
+                fileInput.files = files
+                uploadImage()
+            }
+
+            $('#upload-form').on('submit', function(e) {
+                e.preventDefault();
+                uploadImage();
+            });
+
+            function uploadImage() {
+                var formData = new FormData(uploadForm);
+
+                $('#loading').show();
+                $('#result').hide();
+                $('#download').hide();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#loading').hide();
+                        if (response.filename) {
+                            $('#result').html('<img src="/static/results/' + response.filename + '" alt="Detected Image">');
+                            $('#download').html('<a href="/static/results/' + response.filename + '" download="' + response.filename + '" class="button">Download Image</a>');
+                            $('#result').show();
+                            $('#download').show();
+                        }
+                    },
+                    error: function(response) {
+                        $('#loading').hide();
+                        alert('An error occurred while uploading the image.');
+                    }
+                });
+            }
+        });
+    </script>
+
     </main>
-
 
 </body>
 
