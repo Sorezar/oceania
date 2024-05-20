@@ -1,10 +1,10 @@
-path: C:\Users\mlk63\Documents\Projets\data
-train: images\train
-val: images\val
+path: C:\Users\mlk63\Documents\Projets\oceania\data
+train: train\images
+val: val\images
 
 # Classes
 
 names:
   0: bouledogue
-  1: blacktip
-  2: whitetip
+  1: whitetip
+  2: blacktip
