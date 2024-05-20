@@ -21,7 +21,7 @@
     </nav>
 
     <main>
-        <!--<img src="{{ url_for('webcam') }}" alt="Video Feed">-->
+        <img src="{{ url_for('webcam') }}" alt="Video Feed">
 
         <div id="drop-area">
             <form id="upload-form" enctype="multipart/form-data">
@@ -88,15 +88,15 @@
 
             function handleFiles(files) {
                 fileInput.files = files
-                uploadImage()
+                uploadFile()
             }
 
             $('#upload-form').on('submit', function(e) {
                 e.preventDefault();
-                uploadImage();
+                uploadFile();
             });
 
-            function uploadImage() {
+            function uploadFile() {
                 var formData = new FormData(uploadForm);
 
                 $('#loading').show();
@@ -112,7 +112,12 @@
                     success: function(response) {
                         $('#loading').hide();
                         if (response.filename) {
-                            $('#result').html('<img src="/static/results/' + response.filename + '" alt="Detected Image">');
+                            let fileType = response.filename.split('.').pop();
+                            if (fileType === 'mp4' || fileType === 'avi' || fileType === 'mov', fileType === 'MP4', fileType === 'AVI', fileType === 'MOV') {
+                                $('#result').html('<video controls><source src="/static/results/' + response.filename + '" type="video/mp4"></video>');
+                            } else {
+                                $('#result').html('<img src="/static/results/' + response.filename + '" alt="Detected Image">');
+                            }                            
                             $('#download').html('<a href="/static/results/' + response.filename + '" download="' + response.filename + '" class="button">Download Image</a>');
                             $('#result').show();
                             $('#download').show();
